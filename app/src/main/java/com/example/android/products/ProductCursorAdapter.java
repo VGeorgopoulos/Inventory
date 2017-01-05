@@ -3,8 +3,10 @@ package com.example.android.products;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.telecom.Call;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -97,6 +99,8 @@ public class ProductCursorAdapter extends CursorAdapter {
                 }
             }
         });
+
+
 
         //Find the columns of product attributes that we're interested in
         int imageColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_IMAGE);
