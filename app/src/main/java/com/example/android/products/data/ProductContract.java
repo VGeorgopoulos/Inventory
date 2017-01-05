@@ -4,7 +4,9 @@ package com.example.android.products.data;
  * Created by neuromancer on 5/1/2017.
  */
 
+import android.content.ContentResolver;
 import android.net.Uri;
+import android.provider.BaseColumns;
 
 /**
  * API Contract for the Inventory app.
@@ -35,6 +37,89 @@ public class ProductContract {
      * looking at product data. content://com.example.android.products/staff/ will fail,
      * as the ContentProvider hasn't been given any information on what to do with "staff".
      */
-    public static final String PATH_ProductS = "products";
+    public static final String PATH_PRODUCTS = "products";
 
+    /**
+     * Inner class that defines constant values for the products database table.
+     * Each entry in the table represents a single product.
+     */
+    public static final class ProductEntry implements BaseColumns {
+
+        /**
+         * The MIME type of the {@link #CONTENT_URI} for a list of products.
+         */
+        public static final String CONTENT_LIST_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_PRODUCTS;
+
+        /**
+         * The MIME type of the {@link #CONTENT_URI} for a single product.
+         */
+        public static final String CONTENT_ITEM_TYPE =
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_PRODUCTS;
+
+        /**
+         * The content URI to access the product data in the provider
+         */
+        public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_PRODUCTS);
+
+        /**
+         * Name of database table for products
+         */
+        public final static String TABLE_NAME = "products";
+
+        /**
+         * Unique ID number for the product (only for use in the database table).
+         * <p>
+         * Type: INTEGER
+         */
+        public final static String _ID = BaseColumns._ID;
+
+        /**
+         * Name of the product.
+         * <p>
+         * Type: TEXT
+         */
+        public final static String COLUMN_PRODUCT_NAME = "productName";
+
+        /**
+         * Price of the product.
+         * <p>
+         * Type: INTEGER
+         */
+        public final static String COLUMN_PRODUCT_PRICE = "price";
+
+        /**
+         * Quantity of the product.
+         * Type: INTEGER
+         */
+        public final static String COLUMN_PRODUCT_QUANTITY = "quantity";
+
+        /**
+         * Image of the product.
+         * Type: TEXT
+         */
+        public final static String COLUMN_PRODUCT_IMAGE = "image";
+
+        /**
+         * Name of the Supplier.
+         * <p>
+         * Type: TEXT
+         */
+        public final static String COLUMN_SUPPLIER_NAME = "supplierName";
+
+        /**
+         * Phone of the Supplier.
+         * <p>
+         * Type: INTEGER
+         */
+        public final static String COLUMN_SUPPLIER_PHONE = "phone";
+
+        /**
+         * Email of the Supplier
+         * <p>
+         * Type: Text
+         */
+        public final static String COLUMN_SUPPLIER_EMAIL = "email";
+    }
 }
+
