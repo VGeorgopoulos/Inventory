@@ -276,7 +276,6 @@ public class EditorActivity extends AppCompatActivity implements
         values.put(ProductEntry.COLUMN_SUPPLIER_EMAIL, supplierEmailString);
         values.put(ProductEntry.COLUMN_PRODUCT_IMAGE, productImageString);
 
-
         // Determine if this is a new or existing product by checking if mCurrentProductUri is null or not
         if (mCurrentProductUri == null) {
             // This is a NEW product, so insert a new product into the provider,
