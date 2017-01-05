@@ -138,7 +138,7 @@ public class EditorActivity extends AppCompatActivity implements
             getLoaderManager().initLoader(EXISTING_PRODUCT_LOADER, null, this);
         }
 
-        ImageView mProductImageView = (ImageView) findViewById(R.id.image_view);
+        mProductImageView = (ImageView) findViewById(R.id.image_view);
         mProductTextView = (TextView) findViewById(R.id.img_uri);
         mProductImageButton = (Button) findViewById(R.id.select_image);
         mProductImageButton.setOnClickListener(new View.OnClickListener() {
@@ -415,8 +415,8 @@ public class EditorActivity extends AppCompatActivity implements
 
             // Update the views on the screen with the values from the database
             mProductNameText.setText(productName);
-            mProductPriceText.setText(productPrice);
-            mProductQuantityText.setText(productQuantity);
+            mProductPriceText.setText(Integer.toString(productPrice));
+            mProductQuantityText.setText(Integer.toString(productQuantity));
             mSupplierNameText.setText(supplierName);
             mSupplierPhoneText.setText(supplierPhone);
             mSupplierEmailText.setText(supplierEmail);
@@ -444,7 +444,7 @@ public class EditorActivity extends AppCompatActivity implements
     private void showUnsavedChangesDialog(
             DialogInterface.OnClickListener discardButtonClickListener) {
         // Create an AlertDialog.Builder and set the message, and click listeners
-        // for the postive and negative buttons on the dialog.
+        // for the positive and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.unsaved_changes_dialog_msg);
         builder.setPositiveButton(R.string.discard, discardButtonClickListener);
