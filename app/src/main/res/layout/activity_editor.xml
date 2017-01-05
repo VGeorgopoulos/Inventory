@@ -53,11 +53,12 @@
             android:orientation="horizontal"
             android:weightSum="8">
 
-            <ImageButton
+            <Button
                 android:id="@+id/decrease_quantity"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:background="@drawable/ic_remove_circle_black_24dp" />
 
             <EditText
                 android:id="@+id/quantity_edit"
@@ -68,11 +69,12 @@
                 android:inputType="number"
                 android:maxLength="4" />
 
-            <ImageButton
+            <Button
                 android:id="@+id/increase_quantity"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:background="@drawable/ic_add_box_black_24dp" />
 
         </LinearLayout>
 
@@ -117,12 +119,6 @@
             android:hint="@string/hint_email_address"
             android:inputType="textEmailAddress" />
 
-        <Button
-            android:id="@+id/resupply_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ReSupply" />
-
         <TextView
             android:id="@+id/image_title"
             style="@style/details_title"
@@ -137,10 +133,10 @@
             android:text="@string/select_image" />
 
         <TextView
-            android:visibility="invisible"
             android:id="@+id/img_uri"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/image_view"

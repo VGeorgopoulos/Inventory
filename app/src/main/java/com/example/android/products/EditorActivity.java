@@ -20,7 +20,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -87,7 +86,6 @@ public class EditorActivity extends AppCompatActivity implements
      */
     private Uri imageUri;
 
-
     private Button quantityMinus;
     private Button quantityPlus;
     private Button mProductImageButton;
@@ -138,6 +136,7 @@ public class EditorActivity extends AppCompatActivity implements
             getLoaderManager().initLoader(EXISTING_PRODUCT_LOADER, null, this);
         }
 
+
         mProductImageView = (ImageView) findViewById(R.id.image_view);
         mProductTextView = (TextView) findViewById(R.id.img_uri);
         mProductImageButton = (Button) findViewById(R.id.select_image);
@@ -147,7 +146,22 @@ public class EditorActivity extends AppCompatActivity implements
                 selectImage();
             }
         });
+        quantityMinus = (Button) findViewById(R.id.decrease_quantity);
+        quantityPlus = (Button) findViewById(R.id.increase_quantity);
 
+        quantityMinus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                decreaseQuantity();
+            }
+        });
+
+        quantityPlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                increaseQuantity();
+            }
+        });
 
         // Find all relevant views that we will need to read user input from
         mProductNameText = (EditText) findViewById(R.id.product_name_edit);
@@ -167,7 +181,33 @@ public class EditorActivity extends AppCompatActivity implements
         mSupplierNameText.setOnTouchListener(mTouchListener);
         mSupplierPhoneText.setOnTouchListener(mTouchListener);
         mSupplierEmailText.setOnTouchListener(mTouchListener);
+        mProductImageButton.setOnTouchListener(mTouchListener);
 
+
+    }
+
+    private void decreaseQuantity() {
+        String previousValueString = mProductQuantityText.getText().toString();
+        int originalQuantity;
+        if (previousValueString.isEmpty()) {
+            return;
+        } else if (previousValueString.equals("0")) {
+            return;
+        } else {
+            originalQuantity = Integer.parseInt(previousValueString);
+            mProductQuantityText.setText(String.valueOf(originalQuantity - 1));
+        }
+    }
+
+    private void increaseQuantity() {
+        String previousValueString = mProductQuantityText.getText().toString();
+        int originalQuantity;
+        if (previousValueString.isEmpty()) {
+            originalQuantity = 0;
+        } else {
+            originalQuantity = Integer.parseInt(previousValueString);
+        }
+        mProductQuantityText.setText(String.valueOf(originalQuantity + 1));
     }
 
     private void selectImage() {
@@ -190,8 +230,11 @@ public class EditorActivity extends AppCompatActivity implements
             // Instead, a URI to that document will be contained in the return intent
             // provided to this method as a parameter.  Pull that uri using "resultData.getData()"
 
-            imageUri = resultData.getData();
-            mProductTextView.setText(imageUri.toString());
+            if (resultData != null) {
+                imageUri = resultData.getData();
+                mProductTextView.setText(imageUri.toString());
+                mProductImageView.invalidate();
+            }
         }
     }
 
@@ -308,6 +351,9 @@ public class EditorActivity extends AppCompatActivity implements
                 // Pop up confirmation dialog for deletion
                 showDeleteConfirmationDialog();
                 return true;
+            case R.id.action_ressuply:
+                showRessuplyConfirmationDialog();
+                return true;
             // Respond to a click on the "Up" arrow button in the app bar
             case android.R.id.home:
                 // If the product hasn't changed, continue with navigating up to parent activity
@@ -386,7 +432,7 @@ public class EditorActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+    public void onLoadFinished(Loader<Cursor> loader, final Cursor cursor) {
         // Bail early if the cursor is null or there is less than 1 row in the cursor
         if (cursor == null || cursor.getCount() < 1) {
             return;
@@ -460,6 +506,35 @@ public class EditorActivity extends AppCompatActivity implements
 
         // Create and show the AlertDialog
         AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    private void showRessuplyConfirmationDialog() {
+
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+        builder.setMessage(R.string.phone_email);
+        builder.setPositiveButton(R.string.supplier_phone, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // intent to phone
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:" + mSupplierPhoneText.getText().toString().trim()));
+                startActivity(intent);
+            }
+        });
+        builder.setNegativeButton(R.string.email_address, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // intent to email
+                Intent intent = new Intent(android.content.Intent.ACTION_SENDTO);
+                intent.setType("text/plain");
+                intent.setData(Uri.parse("mailto:" + mSupplierEmailText.getText().toString().trim()));
+                intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Recurrent new order");
+                String bodyMessage = "I would like to place an order for " +
+                        mProductNameText.getText().toString().trim();
+                intent.putExtra(android.content.Intent.EXTRA_TEXT, bodyMessage);
+                startActivity(intent);
+            }
+        });
+        android.support.v7.app.AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
 
