@@ -256,9 +256,9 @@ public class EditorActivity extends AppCompatActivity implements
         // Check if this is supposed to be a new product
         // and check if all the fields in the editor are blank
         if (mCurrentProductUri == null &&
-                TextUtils.isEmpty(productNameString) && TextUtils.isEmpty(productPriceString) &&
-                TextUtils.isEmpty(productQuantityString) && TextUtils.isEmpty(supplierNameString) &&
-                TextUtils.isEmpty(supplierPhoneString) && TextUtils.isEmpty(supplierEmailString) &&
+                TextUtils.isEmpty(productNameString) || TextUtils.isEmpty(productPriceString) ||
+                TextUtils.isEmpty(productQuantityString) || TextUtils.isEmpty(supplierNameString) ||
+                TextUtils.isEmpty(supplierPhoneString) || TextUtils.isEmpty(supplierEmailString) ||
                 TextUtils.isEmpty(productImageString)) {
             // Since no fields were modified, we can return early without creating a new product.
             // No need to create ContentValues and no need to do any ContentProvider operations.
