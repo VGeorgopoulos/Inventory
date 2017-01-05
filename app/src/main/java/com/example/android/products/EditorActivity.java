@@ -79,6 +79,7 @@ public class EditorActivity extends AppCompatActivity implements
      * EditText field to enter the product's Image
      */
     private TextView mProductTextView;
+
     private ImageView mProductImageView;
 
     /**
@@ -474,10 +475,14 @@ public class EditorActivity extends AppCompatActivity implements
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
 //        // If the loader is invalidated, clear out all the data from the input fields.
-//        mNameEditText.setText("");
-//        mBreedEditText.setText("");
-//        mWeightEditText.setText("");
-//        mGenderSpinner.setSelection(0); // Select "Unknown" gender
+        mProductNameText.setText("");
+        mProductPriceText.setText("");
+        mProductQuantityText.setText("");
+        mSupplierNameText.setText("");
+        mSupplierPhoneText.setText("");
+        mSupplierEmailText.setText("");
+        mProductTextView.setText("");
+
     }
 
     /**
